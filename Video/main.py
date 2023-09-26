@@ -3,9 +3,9 @@ import pickle
 import numpy as np
 import time
 
-estacionamientos = []
+entrada = []
 with open('espacios.pkl', 'rb') as file:
-    estacionamientos = pickle.load(file)
+    entrada = pickle.load(file)
 
 video = cv2.VideoCapture('video.mp4')
 
@@ -22,7 +22,7 @@ while True:
     kernel = np.ones((5, 5), np.int8)
     imgDil = cv2.dilate(imgMedian, kernel)
 
-    for i, (x, y, w, h) in enumerate(estacionamientos):
+    for i, (x, y, w, h) in enumerate(entrada):
         espacio = imgDil[y:y+h, x:x+w]
         count = cv2.countNonZero(espacio)
         cv2.putText(img, str(count), (x, y+h-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
@@ -40,9 +40,9 @@ while True:
             #total_detecciones += 1  
         cv2.putText(img, f"Detector {i + 1}", (x, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 1)
 
-    tiempo_acumulado = tiempo_acumulado / 60.0  
+    tiempo_acumulado1 = tiempo_acumulado / 60.0  
 
-    cv2.putText(img, f"Tiempo de deteccion: {tiempo_acumulado:.3f} min", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.putText(img, f"Tiempo de deteccion: {tiempo_acumulado1:.3f} min", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     #cv2.putText(img, f"Total de detecciones: {total_detecciones}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
 
     cv2.imshow('video', img)
@@ -51,7 +51,7 @@ while True:
     #cv2.imshow('video Dilatada', imgDil)
     cv2.waitKey(10)
 
-    if cv2.waitKey(100) & 0xFF == ord(' '):
+    if cv2.waitKey(10) & 0xFF == ord(' '):
         break
 
 video.release()
